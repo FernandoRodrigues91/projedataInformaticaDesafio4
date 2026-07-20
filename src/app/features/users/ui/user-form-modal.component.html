@@ -1,60 +1,68 @@
-<h2 mat-dialog-title>{{ modoEdicao ? 'Editar usuário' : 'Novo usuário' }}</h2>
+<div class="modal-usuario">
+  <h2 mat-dialog-title>{{ modoEdicao ? 'Editar usuário' : 'Adicionar novo usuário' }}</h2>
 
-<mat-dialog-content>
-  <form [formGroup]="formulario" class="form-usuario">
-    <mat-form-field appearance="outline">
-      <mat-label>Nome</mat-label>
-      <input matInput formControlName="nome" />
-      <mat-error *ngIf="formulario.get('nome')?.hasError('required')">
-        Nome é obrigatório
-      </mat-error>
-    </mat-form-field>
+  <mat-dialog-content>
+    <form [formGroup]="formulario" class="form-usuario">
+      <mat-form-field appearance="fill" class="campo-full">
+        <mat-label>Usuário (e-mail)</mat-label>
+        <input matInput formControlName="email" />
+        <mat-error *ngIf="formulario.get('email')?.hasError('required')">
+          E-mail é obrigatório
+        </mat-error>
+        <mat-error *ngIf="formulario.get('email')?.hasError('email')">
+          E-mail inválido
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>E-mail</mat-label>
-      <input matInput formControlName="email" />
-      <mat-error *ngIf="formulario.get('email')?.hasError('required')">
-        E-mail é obrigatório
-      </mat-error>
-      <mat-error *ngIf="formulario.get('email')?.hasError('email')">
-        E-mail inválido
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="fill" class="campo-full">
+        <mat-label>Nome completo</mat-label>
+        <input matInput formControlName="nome" />
+        <mat-error *ngIf="formulario.get('nome')?.hasError('required')">
+          Nome é obrigatório
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>CPF</mat-label>
-      <input matInput formControlName="cpf" />
-      <mat-error *ngIf="formulario.get('cpf')?.hasError('required')">
-        CPF é obrigatório
-      </mat-error>
-    </mat-form-field>
+      <div class="linha-dupla">
+        <mat-form-field appearance="fill" class="campo-cpf">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf" />
+          <mat-error *ngIf="formulario.get('cpf')?.hasError('required')">
+            CPF é obrigatório
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Telefone</mat-label>
-      <input matInput formControlName="telefone" />
-      <mat-error *ngIf="formulario.get('telefone')?.hasError('required')">
-        Telefone é obrigatório
-      </mat-error>
-    </mat-form-field>
+        <mat-form-field appearance="fill" class="campo-telefone">
+          <mat-label>Número do telefone</mat-label>
+          <input matInput formControlName="telefone" />
+          <mat-error *ngIf="formulario.get('telefone')?.hasError('required')">
+            Telefone é obrigatório
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Tipo de telefone</mat-label>
-      <mat-select formControlName="tipoTelefone">
-        <mat-option value="celular">Celular</mat-option>
-        <mat-option value="fixo">Fixo</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </form>
-</mat-dialog-content>
+        <mat-form-field appearance="fill" class="campo-tipo-telefone">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipoTelefone">
+            <mat-option value="celular">CELULAR</mat-option>
+            <mat-option value="fixo">FIXO</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-<mat-dialog-actions align="end">
-  <button mat-button (click)="cancelar()">Cancelar</button>
-  <button
-    mat-raised-button
-    color="primary"
-    [disabled]="formulario.invalid"
-    (click)="salvar()"
-  >
-    Salvar
-  </button>
-</mat-dialog-actions>
+      <p class="aviso-senha" *ngIf="!modoEdicao">
+        O usuário receberá uma senha provisória para acesso ao sistema por SMS.
+      </p>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="formulario.invalid"
+      (click)="salvar()"
+    >
+      SALVAR
+    </button>
+    <button mat-button (click)="cancelar()">Cancelar</button>
+  </mat-dialog-actions>
+</div>

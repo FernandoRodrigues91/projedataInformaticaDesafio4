@@ -1,0 +1,36 @@
+.modal-usuario {
+  min-width: 420px;
+}
+
+.form-usuario {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campo-full {
+  width: 100%;
+}
+
+.linha-dupla {
+  display: flex;
+  gap: 12px;
+
+  .campo-cpf {
+    flex: 1;
+  }
+
+  .campo-telefone {
+    flex: 1;
+  }
+
+  .campo-tipo-telefone {
+    width: 110px;
+  }
+}
+
+.aviso-senha {
+  font-size: 13px;
+  color: #1976d2;
+  margin-top: -8px;
+}
