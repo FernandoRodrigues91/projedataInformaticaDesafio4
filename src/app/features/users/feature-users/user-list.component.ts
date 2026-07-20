@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, signal, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,6 +21,7 @@ export class UserListComponent implements OnInit {
 
   private todosUsuarios: Usuario[] = [];
   private readonly usuarioService = inject(UsuarioService);
+  private readonly destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.carregarUsuarios();
@@ -49,7 +50,7 @@ export class UserListComponent implements OnInit {
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        takeUntilDestroyed()
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((termo) => {
         this.filtrarUsuarios(termo || '');
