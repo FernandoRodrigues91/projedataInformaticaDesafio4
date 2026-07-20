@@ -3,6 +3,7 @@ import { of, throwError } from 'rxjs';
 import { UserListComponent } from './user-list.component';
 import { UsuarioService } from '../data-access/usuario.service';
 import { Usuario } from '../data-access/usuario.model';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 describe('UserListComponent', () => {
   let usuarioServiceMock: any;
@@ -26,8 +27,11 @@ describe('UserListComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [UserListComponent],
-      providers: [{ provide: UsuarioService, useValue: usuarioServiceMock }],
+        imports: [UserListComponent],
+        providers: [
+            { provide: UsuarioService, useValue: usuarioServiceMock },
+            provideNoopAnimations(),
+        ],
     }).compileComponents();
   });
 

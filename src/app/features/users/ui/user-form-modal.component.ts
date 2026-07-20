@@ -29,12 +29,12 @@ export class UserFormModalComponent {
   private readonly dadosUsuario = inject<Usuario | null>(MAT_DIALOG_DATA);
 
   formulario = this.fb.group({
-    nome: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    cpf: ['', Validators.required],
-    telefone: ['', Validators.required],
-    tipoTelefone: ['celular', Validators.required],
-  });
+  nome: ['', Validators.required],
+  email: ['', [Validators.required, Validators.email]],
+  cpf: ['', [Validators.required, Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)]],
+  telefone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\) \d{4,5}-\d{4}$/)]],
+  tipoTelefone: ['celular', Validators.required],
+});
 
   get modoEdicao(): boolean {
     return !!this.dadosUsuario;

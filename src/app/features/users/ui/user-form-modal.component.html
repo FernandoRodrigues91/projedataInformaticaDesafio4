@@ -14,6 +14,28 @@
         </mat-error>
       </mat-form-field>
 
+      <mat-form-field appearance="fill" class="campo-cpf">
+        <mat-label>CPF</mat-label>
+            <input matInput formControlName="cpf" placeholder="000.000.000-00" />
+            <mat-error *ngIf="formulario.get('cpf')?.hasError('required')">
+                CPF é obrigatório
+            </mat-error>
+            <mat-error *ngIf="formulario.get('cpf')?.hasError('pattern')">
+                Formato inválido (ex: 000.000.000-00)
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="campo-telefone">
+            <mat-label>Número do telefone</mat-label>
+            <input matInput formControlName="telefone" placeholder="(21) 91111-1111" />
+            <mat-error *ngIf="formulario.get('telefone')?.hasError('required')">
+                Telefone é obrigatório
+            </mat-error>
+            <mat-error *ngIf="formulario.get('telefone')?.hasError('pattern')">
+                Formato inválido (ex: (21) 91111-1111)
+            </mat-error>
+        </mat-form-field>
+
       <mat-form-field appearance="fill" class="campo-full">
         <mat-label>Nome completo</mat-label>
         <input matInput formControlName="nome" />
