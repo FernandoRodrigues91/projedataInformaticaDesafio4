@@ -67,7 +67,8 @@ export class UserListComponent implements OnInit {
   abrirModalCriar(): void {
     const dialogRef = this.dialog.open(UserFormModalComponent, {
       data: null,
-      width: '450px',
+      width: '90vw',
+      maxWidth: '560px',
     });
 
     dialogRef.afterClosed().subscribe((resultado) => {
@@ -82,7 +83,8 @@ export class UserListComponent implements OnInit {
   abrirModalEditar(usuario: Usuario): void {
     const dialogRef = this.dialog.open(UserFormModalComponent, {
       data: usuario,
-      width: '450px',
+      width: '90vw',
+      maxWidth: '560px',
     });
 
     dialogRef.afterClosed().subscribe((resultado) => {

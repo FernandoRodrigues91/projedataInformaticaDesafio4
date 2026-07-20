@@ -1,5 +1,5 @@
 .modal-usuario {
-  min-width: 420px;
+  width: 100%;
 }
 
 .form-usuario {
@@ -18,14 +18,17 @@
 
   .campo-cpf {
     flex: 1;
+    min-width: 140px;
   }
 
   .campo-telefone {
-    flex: 1;
+    flex: 1.3;
+    min-width: 160px;
   }
 
   .campo-tipo-telefone {
     width: 130px;
+    flex-shrink: 0;
   }
 }
 
