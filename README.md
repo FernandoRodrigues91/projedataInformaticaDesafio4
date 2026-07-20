@@ -1,27 +1,56 @@
-# ProjedataInformaticaDesafio4
+# Desafio Técnico — Front-End Angular (Attus)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10.
+Aplicação de listagem de usuários desenvolvida para o desafio prático (item 4) da avaliação técnica da Attus Procuradoria Digital.
 
-## Development server
+## O que foi feito
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Listagem de usuários com cards (nome, e-mail e botão de editar)
+- Filtro por nome com debounce de 300ms
+- Estado de loading durante o carregamento e mensagem de erro em caso de falha (com botão de tentar novamente)
+- Modal de cadastro/edição de usuário, com formulário reativo e validação por campo
+- Botão de salvar desabilitado enquanto o formulário estiver inválido
+- No modo edição, o formulário já vem preenchido com os dados do usuário selecionado
+- Dados mockados em um service (array estático simulando uma API, com delay artificial pra simular tempo de resposta real)
 
-## Code scaffolding
+## Stack utilizada
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 17+ (standalone components)
+- Angular Material
+- Signals (estado local do componente de listagem)
+- RxJS (debounceTime, distinctUntilChanged, takeUntilDestroyed)
+- Jest (testes unitários)
 
-## Build
+## Estrutura do projeto
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+src/app/features/users/
+├── data-access/     → modelo do usuário e service (dados mockados)
+├── ui/              → modal de cadastro/edição (componente reutilizável)
+└── feature-users/   → componente da listagem (tela principal)
 
-## Running unit tests
+## Como rodar o projeto
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm install
+ng serve
+```
 
-## Running end-to-end tests
+Depois é só acessar `http://localhost:4200`.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Como rodar os testes
 
-## Further help
+```bash
+npm test
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Para ver o relatório de cobertura:
+
+```bash
+npm test -- --coverage
+```
+
+Cobertura atual: 100% statements, 85,71% branch, 100% functions, 100% lines.
+
+## Observações
+
+- O desafio pedia criação e edição de usuário (não foi solicitada exclusão), então não implementei um delete.
+- Os dados ficam salvos apenas em memória durante a execução — ao dar refresh na página, a lista volta ao estado inicial (3 usuários mockados).

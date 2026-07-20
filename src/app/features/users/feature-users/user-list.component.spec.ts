@@ -5,7 +5,7 @@ import { UsuarioService } from '../data-access/usuario.service';
 import { Usuario } from '../data-access/usuario.model';
 
 describe('UserListComponent', () => {
-  let usuarioServiceMock: jasmine.SpyObj<UsuarioService> | any;
+  let usuarioServiceMock: any;
 
   const usuariosMock: Usuario[] = [
     {
@@ -30,6 +30,56 @@ describe('UserListComponent', () => {
       providers: [{ provide: UsuarioService, useValue: usuarioServiceMock }],
     }).compileComponents();
   });
+
+  it('deve chamar o service.criar ao salvar um novo usuário no modal', () => {
+  const novoUsuario = {
+    nome: 'Novo Usuario',
+    email: 'novo@email.com',
+    cpf: '444.444.444-44',
+    telefone: '(21) 94444-4444',
+    tipoTelefone: 'celular' as const,
+  };
+
+  usuarioServiceMock.criar.mockReturnValue(of({ id: 99, ...novoUsuario }));
+
+  const fixture = TestBed.createComponent(UserListComponent);
+  fixture.detectChanges();
+
+  const dialogSpy = {
+    afterClosed: () => of(novoUsuario),
+  };
+
+  jest.spyOn((fixture.componentInstance as any).dialog, 'open').mockReturnValue(dialogSpy as any);
+
+  fixture.componentInstance.abrirModalCriar();
+
+  expect(usuarioServiceMock.criar).toHaveBeenCalledWith(novoUsuario);
+});
+
+it('deve chamar o service.atualizar ao editar um usuário no modal', () => {
+  const usuarioEditado = {
+    nome: 'Ana Editada',
+    email: 'ana.editada@email.com',
+    cpf: '111.111.111-11',
+    telefone: '(21) 91111-1111',
+    tipoTelefone: 'celular' as const,
+  };
+
+  usuarioServiceMock.atualizar.mockReturnValue(of({ id: 1, ...usuarioEditado }));
+
+  const fixture = TestBed.createComponent(UserListComponent);
+  fixture.detectChanges();
+
+  const dialogSpy = {
+    afterClosed: () => of(usuarioEditado),
+  };
+
+  jest.spyOn((fixture.componentInstance as any).dialog, 'open').mockReturnValue(dialogSpy as any);
+
+  fixture.componentInstance.abrirModalEditar(usuariosMock[0]);
+
+  expect(usuarioServiceMock.atualizar).toHaveBeenCalledWith(1, usuarioEditado);
+});
 
   it('deve criar o componente', () => {
     const fixture = TestBed.createComponent(UserListComponent);
