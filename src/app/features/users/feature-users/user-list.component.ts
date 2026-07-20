@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { UsuarioService } from '../data-access/usuario.service';
 import { Usuario } from '../data-access/usuario.model';
+import { UserFormModalComponent } from '../ui/user-form-modal.component';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatButtonModule],
   templateUrl: './user-list.component.html',
 })
 export class UserListComponent implements OnInit {
@@ -22,6 +25,7 @@ export class UserListComponent implements OnInit {
   private todosUsuarios: Usuario[] = [];
   private readonly usuarioService = inject(UsuarioService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
     this.carregarUsuarios();
@@ -42,6 +46,36 @@ export class UserListComponent implements OnInit {
         this.erro.set('Não foi possível carregar os usuários. Tente novamente.');
         this.carregando.set(false);
       },
+    });
+  }
+
+  abrirModalCriar(): void {
+    const dialogRef = this.dialog.open(UserFormModalComponent, {
+      data: null,
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this.usuarioService.criar(resultado).subscribe(() => {
+          this.carregarUsuarios();
+        });
+      }
+    });
+  }
+
+  abrirModalEditar(usuario: Usuario): void {
+    const dialogRef = this.dialog.open(UserFormModalComponent, {
+      data: usuario,
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((resultado) => {
+      if (resultado) {
+        this.usuarioService.atualizar(usuario.id, resultado).subscribe(() => {
+          this.carregarUsuarios();
+        });
+      }
     });
   }
 

@@ -1,9 +1,15 @@
 <div class="user-list">
-  <input
-    type="text"
-    [formControl]="filtroNome"
-    placeholder="Buscar por nome..."
-  />
+  <div class="topo-lista">
+    <input
+      type="text"
+      [formControl]="filtroNome"
+      placeholder="Buscar por nome..."
+    />
+
+    <button mat-raised-button color="warn" (click)="abrirModalCriar()">
+      Novo usuário
+    </button>
+  </div>
 
   <p *ngIf="carregando()">Carregando usuários...</p>
 
@@ -15,6 +21,6 @@
   <div class="user-card" *ngFor="let usuario of usuarios()">
     <h3>{{ usuario.nome }}</h3>
     <p>{{ usuario.email }}</p>
-    <button>Editar</button>
+    <button (click)="abrirModalEditar(usuario)">Editar</button>
   </div>
 </div>
