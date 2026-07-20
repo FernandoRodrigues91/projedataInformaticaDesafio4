@@ -34,9 +34,10 @@ export class UsuarioService {
 
   private proximoId = 4;
 
-  listar(): Observable<Usuario[]> {
-    return of([...this.usuarios]).pipe(delay(800));
-  }
+    listar(): Observable<Usuario[]> {
+        return of([...this.usuarios]).pipe(delay(800));
+}
+  
 
   criar(usuario: Omit<Usuario, 'id'>): Observable<Usuario> {
     const novoUsuario: Usuario = {

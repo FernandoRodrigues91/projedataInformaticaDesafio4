@@ -1,22 +1,68 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { UsuarioService } from '../data-access/usuario.service';
 import { Usuario } from '../data-access/usuario.model';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './user-list.component.html',
 })
 export class UserListComponent implements OnInit {
   usuarios = signal<Usuario[]>([]);
+  carregando = signal(false);
+  erro = signal<string | null>(null);
 
+  filtroNome = new FormControl('');
+
+  private todosUsuarios: Usuario[] = [];
   private readonly usuarioService = inject(UsuarioService);
 
   ngOnInit(): void {
-    this.usuarioService.listar().subscribe((usuarios) => {
-      this.usuarios.set(usuarios);
+    this.carregarUsuarios();
+    this.observarFiltro();
+  }
+
+  carregarUsuarios(): void {
+    this.carregando.set(true);
+    this.erro.set(null);
+
+    this.usuarioService.listar().subscribe({
+      next: (usuarios) => {
+        this.todosUsuarios = usuarios;
+        this.usuarios.set(usuarios);
+        this.carregando.set(false);
+      },
+      error: () => {
+        this.erro.set('Não foi possível carregar os usuários. Tente novamente.');
+        this.carregando.set(false);
+      },
     });
+  }
+
+  private observarFiltro(): void {
+    this.filtroNome.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntilDestroyed()
+      )
+      .subscribe((termo) => {
+        this.filtrarUsuarios(termo || '');
+      });
+  }
+
+  private filtrarUsuarios(termo: string): void {
+    const termoBusca = termo.toLowerCase();
+
+    const filtrados = this.todosUsuarios.filter((usuario) =>
+      usuario.nome.toLowerCase().includes(termoBusca)
+    );
+
+    this.usuarios.set(filtrados);
   }
 }

@@ -1,4 +1,17 @@
 <div class="user-list">
+  <input
+    type="text"
+    [formControl]="filtroNome"
+    placeholder="Buscar por nome..."
+  />
+
+  <p *ngIf="carregando()">Carregando usuários...</p>
+
+  <p *ngIf="erro()" class="erro">
+    {{ erro() }}
+    <button (click)="carregarUsuarios()">Tentar novamente</button>
+  </p>
+
   <div class="user-card" *ngFor="let usuario of usuarios()">
     <h3>{{ usuario.nome }}</h3>
     <p>{{ usuario.email }}</p>
