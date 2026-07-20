@@ -4,7 +4,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { UsuarioService } from '../data-access/usuario.service';
 import { Usuario } from '../data-access/usuario.model';
 import { UserFormModalComponent } from '../ui/user-form-modal.component';
@@ -12,8 +17,18 @@ import { UserFormModalComponent } from '../ui/user-form-modal.component';
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
   templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.scss',
 })
 export class UserListComponent implements OnInit {
   usuarios = signal<Usuario[]>([]);
@@ -52,7 +67,7 @@ export class UserListComponent implements OnInit {
   abrirModalCriar(): void {
     const dialogRef = this.dialog.open(UserFormModalComponent, {
       data: null,
-      width: '400px',
+      width: '450px',
     });
 
     dialogRef.afterClosed().subscribe((resultado) => {
@@ -67,7 +82,7 @@ export class UserListComponent implements OnInit {
   abrirModalEditar(usuario: Usuario): void {
     const dialogRef = this.dialog.open(UserFormModalComponent, {
       data: usuario,
-      width: '400px',
+      width: '450px',
     });
 
     dialogRef.afterClosed().subscribe((resultado) => {

@@ -1,26 +1,42 @@
-<div class="user-list">
-  <div class="topo-lista">
-    <input
-      type="text"
-      [formControl]="filtroNome"
-      placeholder="Buscar por nome..."
-    />
+<mat-toolbar color="primary">
+  <button mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="titulo-toolbar">USUÁRIOS</span>
 
-    <button mat-raised-button color="warn" (click)="abrirModalCriar()">
-      Novo usuário
-    </button>
-  </div>
+  <mat-form-field appearance="fill" class="campo-busca-toolbar">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput [formControl]="filtroNome" placeholder="Pesquisar..." />
+  </mat-form-field>
+</mat-toolbar>
+
+<div class="conteudo-lista">
+  <h3>Usuários cadastrados</h3>
 
   <p *ngIf="carregando()">Carregando usuários...</p>
 
   <p *ngIf="erro()" class="erro">
     {{ erro() }}
-    <button (click)="carregarUsuarios()">Tentar novamente</button>
+    <button mat-button (click)="carregarUsuarios()">Tentar novamente</button>
   </p>
 
-  <div class="user-card" *ngFor="let usuario of usuarios()">
-    <h3>{{ usuario.nome }}</h3>
-    <p>{{ usuario.email }}</p>
-    <button (click)="abrirModalEditar(usuario)">Editar</button>
-  </div>
+  <mat-list *ngIf="!carregando() && !erro()">
+    <mat-list-item *ngFor="let usuario of usuarios()">
+      <mat-icon matListItemIcon>account_circle</mat-icon>
+      <div matListItemTitle>{{ usuario.nome }}</div>
+      <div matListItemLine>{{ usuario.email }}</div>
+      <button mat-icon-button matListItemMeta (click)="abrirModalEditar(usuario)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
 </div>
+
+<button
+  mat-fab
+  color="warn"
+  class="botao-flutuante"
+  (click)="abrirModalCriar()"
+>
+  <mat-icon>add</mat-icon>
+</button>
