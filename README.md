@@ -4,10 +4,11 @@ Aplicação de listagem de usuários desenvolvida para o desafio prático (item 
 
 ## O que foi feito
 
-- Listagem de usuários com cards (nome, e-mail e botão de editar)
+- Listagem de usuários seguindo o protótipo fornecido (toolbar, lista com ícone de avatar, botão flutuante para novo usuário)
 - Filtro por nome com debounce de 300ms
 - Estado de loading durante o carregamento e mensagem de erro em caso de falha (com botão de tentar novamente)
 - Modal de cadastro/edição de usuário, com formulário reativo e validação por campo
+- Validação de formato para e-mail, CPF e telefone (além dos campos obrigatórios)
 - Botão de salvar desabilitado enquanto o formulário estiver inválido
 - No modo edição, o formulário já vem preenchido com os dados do usuário selecionado
 - Dados mockados em um service (array estático simulando uma API, com delay artificial pra simular tempo de resposta real)
@@ -54,3 +55,4 @@ Cobertura atual: 100% statements, 85,71% branch, 100% functions, 100% lines.
 
 - O desafio pedia criação e edição de usuário (não foi solicitada exclusão), então não implementei um delete.
 - Os dados ficam salvos apenas em memória durante a execução — ao dar refresh na página, a lista volta ao estado inicial (3 usuários mockados).
+- Diferenciais como Nx Monorepo e paginação não foram implementados, por serem opcionais e para focar no que era obrigatório.
